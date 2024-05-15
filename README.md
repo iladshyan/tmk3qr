@@ -7,6 +7,7 @@
 - qrcode
 - Pillow (PIL)
 - subprocess
+- Zbar(https://zbar.sourceforge.net)
 
 You can install the dependencies using pip: `pip install qrcode pillow`
 
