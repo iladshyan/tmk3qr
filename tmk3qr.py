@@ -68,7 +68,7 @@ def make3channelqr(rc,gc,bc,ver):
             final_qr[i][j] = add_colors(conv_qrrc[i][j],conv_qrgc[i][j],conv_qrbc[i][j])
     return (final_qr)
 
-def create_image_from_array(pixel_array, filename):
+def create_image_from_array(pixel_array, filename, status_print = True):
     """Create an image from a 2D array of pixel colors and save it as a PNG file."""
     # Determine image dimensions
     height = len(pixel_array)
@@ -83,7 +83,8 @@ def create_image_from_array(pixel_array, filename):
 
     # Save the image
     img.save(filename)
-    print("Image saved as", filename)
+    if status_print:
+        print("Image saved as", filename)
 
 def image_to_2d_arrays(image_path):
     """Convert an image to 2D arrays for each channel (R, G, B) in grayscale."""
@@ -112,7 +113,7 @@ def image_to_2d_arrays(image_path):
 
     return red_array, green_array, blue_array
 
-def create_bw_image_from_array(pixel_array, filename):
+def create_bw_image_from_array(pixel_array, filename,status_print = True):
     """Convert a 2D array of grayscale pixel intensities to a grayscale image."""
     # Determine image dimensions
     height = len(pixel_array)
@@ -127,7 +128,8 @@ def create_bw_image_from_array(pixel_array, filename):
 
     # Save the image
     img.save(filename)
-    print("Image saved as", filename)
+    if status_print:
+        print("Image saved as", filename)
 
 def read_qr(file):
     # Run the command in the command prompt
@@ -136,12 +138,12 @@ def read_qr(file):
     return output[8:].decode('utf-8')
         
         
-def dec(img):
+def dec(img,s):
     cr , cg , cb = image_to_2d_arrays(img)
 
-    create_bw_image_from_array(cr,'cr.png')
-    create_bw_image_from_array(cg,'cg.png')
-    create_bw_image_from_array(cb,'cb.png')
+    create_bw_image_from_array(cr,'cr.png',s)
+    create_bw_image_from_array(cg,'cg.png',s)
+    create_bw_image_from_array(cb,'cb.png',s)
 
     dcrqr = read_qr('cr.png')
     dcgqr = read_qr('cg.png')
@@ -149,8 +151,8 @@ def dec(img):
     
     return (dcrqr,dcgqr,dcbqr)
 
-def enc(a,b,c,file,ver):
-    create_image_from_array(make3channelqr(a,b,c,ver), file)
+def enc(a,b,c,file,ver,s):
+    create_image_from_array(make3channelqr(a,b,c,ver), file,s)
 
 def main():
     enc('a','a','a', 'out.png',ver=4)
